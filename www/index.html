@@ -83,8 +83,8 @@
           saveToPhotoAlbum: true 
         });
 
-      var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
-        db.transaction(populateDB, errorCB, successCB);
+    //  var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
+    //    db.transaction(populateDB, errorCB, successCB);
 
 
 
@@ -135,9 +135,6 @@
     var image = document.getElementById('myImage');
     alert(imageURI);
     image.src = imageURI;
-
-
-
     saveImageToDisk(imageURI);
  }
 
