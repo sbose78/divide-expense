@@ -29,7 +29,9 @@
     <feature name="http://api.phonegap.com/1.0/network"/>
     <feature name="http://api.phonegap.com/1.0/notification"/>
     <feature name="http://api.phonegap.com/1.0/accelerometer"/>
+    <feature name="http://api.phonegap.com/1.0/storage"/>
     <feature name="http://api.phonegap.com/1.0/InAppBrowser"/>
+
 
 
     <!--
