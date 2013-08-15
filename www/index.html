@@ -77,8 +77,11 @@
                             'Device Version: '  + device.version  + '<br />';
 
 
-      navigator.camera.getPicture(onCameraSuccess, onFail, { quality: 50, 
-    destinationType: Camera.DestinationType.FILE_URI }); 
+      navigator.camera.getPicture(onCameraSuccess, onFail, { 
+          quality: 50, 
+          destinationType: Camera.DestinationType.FILE_URI ,
+          saveToPhotoAlbum: true 
+        }); 
 
 
 
