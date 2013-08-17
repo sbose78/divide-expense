@@ -27,198 +27,79 @@
         <link rel="stylesheet" type="text/css" href="css/index.css" />
        
 
-        <title>Hello World</title>
+        <title> Enter expense </title>
     </head>
     <body>
         <div class="app">
-            <h1>PhoneGap</h1>
-            <div id="deviceready" class="blink">
-                <p id="read_status">Connecting to Device</p>
-               
-            </div>
+            <h1> <div class="project_name">expenses</div></h1>
 
-            <div id="geolocation" class="blink">
+             <input type='text' id='nameInput' placeholder="name"> <br>
+             <input type='text'  placeholder="expense" id='expenseInput'><br>
+             <input type='text'  placeholder="commodity" id='commodityInput'><br>
+            <!-- Date <input type='text' id='dateInput'> <br> -->
+  
+             <input type="button" id="buttonSend" value="Enter"/> 
 
-                .. loading location 
-            </div>
+             <div id="messagesDiv" >
 
-             <div id="deviceProperties"> props....</div>
-
-             <div id="acc">acc data..</div>
-
-             <img id="myImage">img.</img>
-           
+             </div>
         </div>
 
+<script type='text/javascript' src='https://cdn.firebase.com/v0/firebase.js'></script>
+<script type='text/javascript' src='js/jquery.min.js'></script>
 
- <script type="text/javascript" src="phonegap.js"></script>
+
+ <!--script type="text/javascript" src="phonegap.js"></script-->
         <script type="text/javascript">
 
-   
+        var PROJECT_NAME="picnic";
+       
+        $(document).ready(function() {
 
-     document.addEventListener("deviceready", onDeviceReady, false);
+            $(".project_name").html(PROJECT_NAME);
+       
+      });
 
-    // device APIs are available
-    //
+      function getDate()
+      {
+              var today = new Date();
+              var dd = today.getDate();
+              var mm = today.getMonth()+1; //January is 0!
 
-    var pictureSource;   // picture source
-    var destinationType; // sets the format of returned value
+             var yyyy = today.getFullYear();
+              if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = dd+'/'+mm+'/'+yyyy;
 
-    function onDeviceReady() {
+              return today;
+      }  
+  
+
+     var myExpensesDataRef = new Firebase('https://expenses.firebaseio.com/'+PROJECT_NAME+'/expenses');
+    
+
+      $('#buttonSend').click(function () {
       
-        alert("device is ready");
-        document.getElementById("read_status").innerHTML="device is ready!";
+          var name = $('#nameInput').val();
+          var expense = $('#expenseInput').val();
+          var commodity = $("#commodityInput").val();
+           
+          var c_date = getDate();//current_date;//$('#dateInput').val();
+           myExpensesDataRef.push({name: name, expense: expense , date_of_shopping: c_date,commodity:commodity});
 
-        var element = document.getElementById('deviceProperties');
-        element.innerHTML = 'Device Name: '     + device.name     + '<br />' + 
-                            'Device PhoneGap: ' + device.phonegap + '<br />' + 
-                            'Device Platform: ' + device.platform + '<br />' + 
-                            'Device UUID: '     + device.uuid     + '<br />' + 
-                            'Device Version: '  + device.version  + '<br />';
+           var myUsersDataRef = new Firebase('https://expenses.firebaseio.com/'+PROJECT_NAME+'/users/'+name);
+           myUsersDataRef.push({expense:expense,date_of_shopping:c_date, commodity:commodity});
 
-
-      navigator.camera.getPicture(onCameraSuccess, onFail, { 
-          quality: 50, 
-          destinationType: Camera.DestinationType.FILE_URI ,
-          saveToPhotoAlbum: true 
-        });
-
-    //  var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
-    //    db.transaction(populateDB, errorCB, successCB);
-
-
-
-
-
-       // getContacts();                            
-
-        /*navigator.geolocation.getCurrentPosition(onGeoSuccess, onFail);
-        navigator.accelerometer.getCurrentAcceleration(onAccSuccess, onFail);
-        */
-
-/*
-        var ref = window.open('http://apache.org', '_blank', 'location=yes');
-        ref.addEventListener('loadstart', function(event) { alert('start: ' + event.url); });
-        ref.addEventListener('loadstop', function(event) { alert('stop: ' + event.url); });
-        ref.addEventListener('loaderror', function(event) { alert('error: ' + event.message); });
-        ref.addEventListener('exit', function(event) { alert(event.type); });
-
-  */
-  }
-
-
-    // Populate the database 
-    //
-    function populateDB(tx) {
-         tx.executeSql('DROP TABLE IF EXISTS DEMO');
-         tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
-         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
-         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
-    }
-
-    // Transaction error callback
-    //
-    function errorCB(tx, err) {
-        alert("Error processing SQL: "+err);
-    }
-
-    // Transaction success callback
-    //
-    function successCB() {
-        alert("success!");
-    }
-
-
-
-
-  function onCameraSuccess(imageURI) {
-    var image = document.getElementById('myImage');
-    alert(imageURI);
-    image.src = imageURI;
-    saveImageToDisk(imageURI);
- }
-
-
-  function saveImageToDisk(entry)
-  {
-          window.resolveLocalFileSystemURI(entry, resolveOnFSSuccess, onFail); 
-  }
-
-  function resolveOnFSSuccess(entry)
-  {
-
-     var d = new Date();
-    var n = d.getTime();
-    //new file name
-    var newFileName = n + "-sbose.jpg";
-    var myFolderApp = "MyVacationPics";
-
-       window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {      
-    //The folder is created if doesn't exist
-                              fileSys.root.getDirectory( myFolderApp,
-
-                                              {create:true, exclusive: false},
-                                              function(directory) {
-                                                  entry.moveTo(directory, newFileName,  successMove, onFail);
-                                              },
-                                              onFail);
-                              },
-           onFail);
-
-  }
-
-  function successMove(entry){
-      alert("Successfully saved on disk "+ entry.fullPath);
-  }
-
-/*
-  function getContacts() 
-  {
-                // find all contacts with 'Bob' in any name field
-                var options = new ContactFindOptions();
-                options.filter = "";
-                var fields = ["displayName", "name"];
-                navigator.contacts.find(fields, onContactsSuccess, onFail, options);
-  }
-
-            // onSuccess: Get a snapshot of the current contacts
-
-   function onContactsSuccess(contacts) 
-   {
-          for (var i = 0; i < contacts.length; i++) {
-                  console.log("Display Name = " + contacts[i].displayName);
-          }
-  }
-
-          
-  function onAccSuccess(acceleration){
-    alert('acc');
-     var element = document.getElementById('deviceProperties');
-        element.innerHTML = 'Acceleration X: ' + acceleration.x + '\n' +
-              'Acceleration Y: ' + acceleration.y + '\n' +
-              'Acceleration Z: ' + acceleration.z + '\n' +
-              'Timestamp: '      + acceleration.timestamp + '\n';
-  }     
-
-    function onGeoSuccess(position){
-         alert("geo.");
-         var element = document.getElementById('geolocation');
-         element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
-                            'Longitude: '          + position.coords.longitude             + '<br />' +
-                            'Altitude: '           + position.coords.altitude              + '<br />' +
-                            'Accuracy: '           + position.coords.accuracy              + '<br />' +
-                            'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
-                            'Heading: '            + position.coords.heading               + '<br />' +
-                            'Speed: '              + position.coords.speed                 + '<br />' +
-                            'Timestamp: '          + position.timestamp                    + '<br />';
-
-          alert(position.coords.latitude);
-
-    }
-*/
-    function onFail(message) {
-      alert('Failed because: ' + message);
-    }
+         // $('#messageInput').val('');
+        
+      });
+      myExpensesDataRef.on('child_added', function(snapshot) {
+        var message = snapshot.val();
+        displayChatMessage(message.name, message.expense, message.date_of_shopping, message.commodity);
+        alert(message.name+","+ message.expense+","+ message.date_of_shopping);
+      });
+      function displayChatMessage(name, expense, date_of_shopping) {
+        $('<div/>').prepend($('<em/>').text(name+','+expense+','+date_of_shopping)).appendTo($('#messagesDiv'));
+        $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+      };
 
 </script>
 
