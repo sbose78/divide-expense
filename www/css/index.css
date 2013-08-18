@@ -102,12 +102,13 @@ h3{
 
 
 
-
+/*
 div#messagesDiv{
     margin: 10px;
     
     background-color: white;
 }
+
 
 td.name{
     background-color: #318CF1;
@@ -118,7 +119,7 @@ td.expense{
     font-weight: 120%;
     width: 10%;
 }
-
+*/
 form#submission_form{
 
 
