@@ -116,3 +116,18 @@ td.expense{
     font-weight: 120%;
     width: 10%;
 }
+
+form#submission_form{
+
+
+    box-shadow: 0 0 1em grey;
+}
+
+input#buttonSend{
+
+    padding: 2%;
+    background-color: #F2292D;
+    color: white;
+    border-radius: 5px;
+
+}

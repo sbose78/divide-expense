@@ -31,15 +31,16 @@
     </head>
     <body>
         <div class="app">
-            <h1> <div class="project_name">expenses</div></h1>
+            <h3> <div class="project_name">expenses</div></h3>
 
+            <form id="submission_form">
              <input type='text' id='nameInput' placeholder="name"> <br>
              <input type='text'  placeholder="expense" id='expenseInput'><br>
              <input type='text'  placeholder="commodity" id='commodityInput'><br>
             <!-- Date <input type='text' id='dateInput'> <br> -->
   
              <input type="button" id="buttonSend" value="Enter"/> 
-
+            </form>
              <div id="messagesDiv" >
               <table id="messagesTable">
 
@@ -54,7 +55,7 @@
  <!--script type="text/javascript" src="phonegap.js"></script-->
         <script type="text/javascript">
 
-              var PROJECT_NAME="picnic";
+              var PROJECT_NAME="flat206";
               var isOnline = true;
 
                  document.addEventListener("online", onOnline, false);
@@ -89,7 +90,7 @@
 
                 //  interact with firebase
                 function onOnline(){
-                  alert("online :-) in handler");
+                //  alert("online :-) in handler");
                   isOnline = true;
 
                 }
@@ -132,7 +133,7 @@
              //     navigator.notification.beep(2);
                   var message = snapshot.val();
                   displayChatMessage(message.name, message.expense, message.date_of_shopping, message.commodity);
-                  alert(message.name+","+ message.expense+","+ message.date_of_shopping);
+                  //alert(message.name+","+ message.expense+","+ message.date_of_shopping);
               });
               function displayChatMessage(name, expense, date_of_shopping) {
                var  row= $('<tr>');
