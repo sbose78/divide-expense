@@ -28,17 +28,7 @@ body {
     /*-webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
 
     background-color:white;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #A7A7A7),
-        color-stop(0.51, #E4E4E4)
-    );
-    background-attachment:fixed;
+   
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
     height:100%;
@@ -53,7 +43,7 @@ body {
    /* background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
     position:absolute;             /* position in the center of the screen */
     left:50%;
-    top:2%;
+    top:18%;
     height:80px;                   /* text area height */
     width:225px;                   /* text area width */
     text-align:center;
@@ -81,6 +71,18 @@ h1 {
     text-align:center;
 }
 
+h3{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    background-color:#2D363F;
+    color: #A6ACB0;
+    z-index: 999;
+    font-size: 130%;
+    padding: 0.5%;
+}
+
 @keyframes fade {
     from { opacity: 1.0; }
     50% { opacity: 0.4; }
@@ -103,7 +105,7 @@ h1 {
 
 div#messagesDiv{
     margin: 10px;
-    box-shadow: 0 0 1em gold;
+    
     background-color: white;
 }
 
@@ -120,7 +122,7 @@ td.expense{
 form#submission_form{
 
 
-    box-shadow: 0 0 1em grey;
+
 }
 
 input#buttonSend{
