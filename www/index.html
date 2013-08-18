@@ -55,13 +55,18 @@
               var PROJECT_NAME="picnic";
               var isOnline = false;
 
+                 document.addEventListener("offline", onOffline, false);
+                 document.addEventListener("online", onOnline, false);
+
+                 /*
                 document.addEventListener("deviceready", onDeviceReady, false);
                 function onDeviceReady(){
-                       document.addEventListener("offline", onOffline, false);
-                       document.addEventListener("online", onOnline, false);
+                      
 
                 }
+                */
 
+                
                 $(document).ready(function() {
 
                       $(".project_name").html(PROJECT_NAME);
