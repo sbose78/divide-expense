@@ -123,7 +123,7 @@
             // Need not worry about this as event handler wont be triggered anyway in offline mode.
 
              myExpensesDataRef.on('child_added', function(snapshot) {
-                  navigator.notification.beep(2);
+             //     navigator.notification.beep(2);
                   var message = snapshot.val();
                   displayChatMessage(message.name, message.expense, message.date_of_shopping, message.commodity);
                   alert(message.name+","+ message.expense+","+ message.date_of_shopping);
