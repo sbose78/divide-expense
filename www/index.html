@@ -41,7 +41,9 @@
              <input type="button" id="buttonSend" value="Enter"/> 
 
              <div id="messagesDiv" >
+              <table id="messagesTable">
 
+              </table>
              </div>
         </div>
 
@@ -49,11 +51,11 @@
 <script type='text/javascript' src='js/jquery.min.js'></script>
 
 
- <script type="text/javascript" src="phonegap.js"></script>
+ <!--script type="text/javascript" src="phonegap.js"></script-->
         <script type="text/javascript">
 
               var PROJECT_NAME="picnic";
-              var isOnline = false;
+              var isOnline = true;
 
                  document.addEventListener("online", onOnline, false);
 
@@ -133,7 +135,10 @@
                   alert(message.name+","+ message.expense+","+ message.date_of_shopping);
               });
               function displayChatMessage(name, expense, date_of_shopping) {
-                  $('<div/>').prepend($('<em/>').text(name+','+expense+','+date_of_shopping)).appendTo($('#messagesDiv'));
+               var  row= $('<tr>');
+               $(row).append($('<td class="name">').text(name));
+               $(row).append($('<td class="expense">').text(expense));
+                $('#messagesTable').prepend($(row));//.appendTo($('#messagesDiv'));
                   $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
                };
 

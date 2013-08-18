@@ -81,25 +81,6 @@ h1 {
     text-align:center;
 }
 
-.event {
-    border-radius:4px;
-    -webkit-border-radius:4px;
-    color:#FFFFFF;
-    font-size:12px;
-    margin:0px 30px;
-    padding:2px 0px;
-}
-
-.event.listening {
-    background-color:#333333;
-    display:block;
-}
-
-.event.received {
-    background-color:#4B946A;
-    display:none;
-}
-
 @keyframes fade {
     from { opacity: 1.0; }
     50% { opacity: 0.4; }
@@ -115,4 +96,23 @@ h1 {
 .blink {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
+}
+
+
+
+
+div#messagesDiv{
+    margin: 10px;
+    box-shadow: 0 0 1em gold;
+    background-color: white;
+}
+
+td.name{
+    background-color: #318CF1;
+    color: white;
+    width: 70%;
+}
+td.expense{
+    font-weight: 120%;
+    width: 10%;
 }
