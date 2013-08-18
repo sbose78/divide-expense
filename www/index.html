@@ -56,24 +56,24 @@
     </div>
 
 
-  
-<br><br><br>
+   <br><br>
         <div class="container">
+             <div class="row-fluid"> 
+                <div class="span">
+                      <form id="submission_form">
+                       <input type='text' id='nameInput' placeholder="name"> <br>
+                       <input type='text'  placeholder="expense" id='expenseInput'><br>
+                       <input type='text'  placeholder="commodity" id='commodityInput'><br>
+                      <!-- Date <input type='text' id='dateInput'> <br> -->
             
+                       <input type="button" id="buttonSend" class="btn btn-primary" value="Enter"/> 
+                      </form>
+                       <div id="messagesDiv" >
+                        <table id="messagesTable" class="table table-striped table-bordered table-condensed">
 
-            <form id="submission_form">
-             <input type='text' id='nameInput' placeholder="name"> <br>
-             <input type='text'  placeholder="expense" id='expenseInput'><br>
-             <input type='text'  placeholder="commodity" id='commodityInput'><br>
-            <!-- Date <input type='text' id='dateInput'> <br> -->
-  
-             <input type="button" id="buttonSend" value="Enter"/> 
-            </form>
-             <div id="messagesDiv" >
-              <table id="messagesTable" class="table table-striped table-bordered table-condensed">
-
-              </table>
-             </div>
+                        </table>
+                       </div>
+                </div>
         </div>
 
 <script type='text/javascript' src='https://cdn.firebase.com/v0/firebase.js'></script>
