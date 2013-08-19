@@ -184,27 +184,35 @@
 
               $('#buttonSend').click(function () {
           
-                  var name = $('#nameInput').val();
-                  var expense = $('#expenseInput').val();
-                  var commodity = $("#commodityInput").val();
+                  var name = $.trim($('#nameInput').val());
+                  var expense = $.trim($('#expenseInput').val());
+                  var commodity = $.trim($("#commodityInput").val());
                    
-                  var c_date = getDate();//current_date;//$('#dateInput').val();
-
-                  if ( isOnline == true  )
+                  if( name!="" && expense!="" && commodity!="" )
                   {
+                       var c_date = getDate();//current_date;//$('#dateInput').val();
 
-                   myExpensesDataRef.push({name: name, expense: expense , date_of_shopping: c_date,commodity:commodity});
-                   var myUsersDataRef = new Firebase('https://expenses.firebaseio.com/'+PROJECT_NAME+'/users/'+name);
-                   myUsersDataRef.push({expense:expense,date_of_shopping:c_date, commodity:commodity});
+                      if ( isOnline == true  )
+                      {
 
-                   $("form#submission_form").hide();
-                   $('#buttonShowForm').show();
-                    focus_on_section("div#exhaustiveExpensesDiv");
-                 }
-                 else{
-                    alert(" offline :( ");
-                 }
+                           myExpensesDataRef.push({name: name, expense: expense , date_of_shopping: c_date,commodity:commodity});
+                           var myUsersDataRef = new Firebase('https://expenses.firebaseio.com/'+PROJECT_NAME+'/users/'+name);
+                           myUsersDataRef.push({expense:expense,date_of_shopping:c_date, commodity:commodity});
 
+                           $("form#submission_form").hide();
+                           $('#buttonShowForm').show();
+                            focus_on_section("div#exhaustiveExpensesDiv");
+                       }
+                       else{
+                          alert(" offline :( ");
+                       }
+
+
+                  }
+                  else{
+
+                    alert( "Invalid data :( " );
+                  }
                  
               });
 
@@ -266,18 +274,18 @@
                   var message = snapshot.val();
                   displayChatMessage(message.name, message.expense, message.date_of_shopping, message.commodity);
 
+                 
                  // alert(message.commodity);
-                  var expense_data = parseInt(message.expense);
-
+                   var expense_data = parseInt(message.expense);
                   var current_sum = parseInt($("text#total_expenditure").html());
 
                   // calculating new sum
 
-                 current_sum = current_sum+expense_data;
+                  current_sum = current_sum+expense_data;
 
              //    alert(current_sum);
 
-                 $("text#total_expenditure").html(current_sum);
+                  $("text#total_expenditure").html(current_sum);
 
                   //alert(message.name+","+ message.expense+","+ message.date_of_shopping);
               });
