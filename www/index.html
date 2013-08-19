@@ -58,8 +58,12 @@
 
    <br><br>
         <div class="container">
-             <div class="row-fluid"> 
-                <div class="span">
+             <div class="row-fluid">
+                <div class="span1">
+                       <input type="button" id="buttonShowForm" class="btn btn-primary" value="+"/> 
+                </div>
+
+                <div class="span11">
                       <form id="submission_form">
                        <input type='text' id='nameInput' placeholder="name"> <br>
                        <input type='text'  placeholder="expense" id='expenseInput'><br>
@@ -68,13 +72,16 @@
             
                        <input type="button" id="buttonSend" class="btn btn-primary" value="Enter"/> 
                       </form>
-                       <div id="messagesDiv" >
+                       
+                </div>
+        </div>
+
+        <div id="messagesDiv" >
                         <table id="messagesTable" class="table table-striped table-bordered table-condensed">
 
                         </table>
-                       </div>
                 </div>
-        </div>
+  </div>
 
 <script type='text/javascript' src='https://cdn.firebase.com/v0/firebase.js'></script>
 <script type='text/javascript' src='js/jquery.min.js'></script>
@@ -147,13 +154,21 @@
                    myExpensesDataRef.push({name: name, expense: expense , date_of_shopping: c_date,commodity:commodity});
                    var myUsersDataRef = new Firebase('https://expenses.firebaseio.com/'+PROJECT_NAME+'/users/'+name);
                    myUsersDataRef.push({expense:expense,date_of_shopping:c_date, commodity:commodity});
+
+                   $("form#submission_form").hide();
                  }
                  else{
                     alert(" offline :( ");
                  }
 
                  
-             });
+              });
+
+              $('#buttonShowForm').click(function(){
+
+                  $("form#submission_form").show();
+
+              });
 
             // Need not worry about this as event handler wont be triggered anyway in offline mode.
 
