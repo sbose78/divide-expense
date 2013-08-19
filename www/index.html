@@ -60,13 +60,13 @@
         <div class="container">
              <div class="row-fluid">
                 <div class="span1">
-                       <input type="button" id="buttonShowForm" class="btn btn-primary" value="+"/> 
+                       <input type="button" id="buttonShowForm" class="btn btn-primary" value="Add expense"/> 
                 </div>
 
                 <div class="span11">
                       <form id="submission_form">
                        <input type='text' id='nameInput' placeholder="name"> <br>
-                       <input type='text'  placeholder="expense" id='expenseInput'><br>
+                       <input type='number'  placeholder="expense" id='expenseInput'><br>
                        <input type='text'  placeholder="commodity" id='commodityInput'><br>
                       <!-- Date <input type='text' id='dateInput'> <br> -->
             
@@ -74,8 +74,15 @@
                       </form>
                        
                 </div>
+
+                 
+
         </div>
 
+         <div id="basicStatisticsDiv">
+                      Total : &nbsp; <strong> <text id="total_expenditure"> 0 </text> </strong>
+          </div>
+       
         <div id="messagesDiv" >
                         <table id="messagesTable" class="table table-striped table-bordered table-condensed">
 
@@ -107,6 +114,7 @@
                 $(document).ready(function() {
 
                       $("#project_name").html(PROJECT_NAME);
+                       $("form#submission_form").hide();
                 
                 });
 
@@ -156,6 +164,7 @@
                    myUsersDataRef.push({expense:expense,date_of_shopping:c_date, commodity:commodity});
 
                    $("form#submission_form").hide();
+                   $('#buttonShowForm').show();
                  }
                  else{
                     alert(" offline :( ");
@@ -167,6 +176,8 @@
               $('#buttonShowForm').click(function(){
 
                   $("form#submission_form").show();
+                  $('#buttonShowForm').hide();
+
 
               });
 
@@ -176,6 +187,20 @@
              //     navigator.notification.beep(2);
                   var message = snapshot.val();
                   displayChatMessage(message.name, message.expense, message.date_of_shopping, message.commodity);
+
+                 // alert(message.commodity);
+                  var expense_data = parseInt(message.expense);
+
+                  var current_sum = parseInt($("text#total_expenditure").html());
+
+                  // calculating new sum
+
+                 current_sum = current_sum+expense_data;
+
+             //    alert(current_sum);
+
+                 $("text#total_expenditure").html(current_sum);
+
                   //alert(message.name+","+ message.expense+","+ message.date_of_shopping);
               });
               function displayChatMessage(name, expense, date_of_shopping) {
