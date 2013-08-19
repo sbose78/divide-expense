@@ -61,6 +61,7 @@
              <div class="row-fluid">
                 <div class="span1">
                        <input type="button" id="buttonShowForm" class="btn btn-primary" value="Add expense"/> 
+
                 </div>
 
                 <div class="span11">
@@ -77,17 +78,33 @@
 
                  
 
-        </div>
+            </div>
 
-         <div id="basicStatisticsDiv">
-                      Total : &nbsp; <strong> <text id="total_expenditure"> 0 </text> </strong>
+          <div class="row-fluid">
+                   <div id="basicStatisticsDiv" class="span3">
+                                Total : &nbsp; <strong> <text id="total_expenditure"> 0 </text> </strong>
+                    </div>
+                    <div class="span9" >
+                            <input type="text" id="searchUserInput" class="input-medium search-query">
+                            <button type="button" id="userDataButton" class="btn">Search</button>
+                               
+                    </div>
           </div>
        
         <div id="messagesDiv" >
                         <table id="messagesTable" class="table table-striped table-bordered table-condensed">
 
                         </table>
-                </div>
+         </div>
+          ****************
+          <div id="userDataDiv" >
+                        <table id="userDataTable" class="table table-striped table-bordered table-condensed">
+
+                        </table>
+         </div>
+
+
+
   </div>
 
 <script type='text/javascript' src='https://cdn.firebase.com/v0/firebase.js'></script>
@@ -181,6 +198,35 @@
 
               });
 
+
+              $("#userDataButton").click(function(){
+
+                   var search_key = $("#searchUserInput").val();
+                   var user_table = document.getElementById("userDataTable");
+
+                   $("tr.all_expense_data").each(function() {
+
+                      var commodity = $(this).attr("commodity");
+                      var expense = $(this).attr("expense");
+
+                      alert(expense+";"+commodity);
+                      var new_row = document.createElement("tr");
+
+                      $(new_row).append($("<td>").text(commodity));
+                      $(new_row).append($("<td>").text(expense));
+
+                      $(user_table).prepend($(new_row));
+
+                    });
+
+
+              });
+
+              $("td.name").on("click", function(event){
+                   alert($(this).html());
+              });
+
+
             // Need not worry about this as event handler wont be triggered anyway in offline mode.
 
              myExpensesDataRef.on('child_added', function(snapshot) {
@@ -203,11 +249,13 @@
 
                   //alert(message.name+","+ message.expense+","+ message.date_of_shopping);
               });
-              function displayChatMessage(name, expense, date_of_shopping) {
+              function displayChatMessage(name, expense, date_of_shopping,commodity) {
                var  row= $('<tr>');
+               $(row).attr("name",name).attr("expense",expense).attr("date_of_shopping",date_of_shopping).attr("commodity",commodity).attr("class","all_expense_data");
+
                $(row).append($('<td class="name">').text(name));
                $(row).append($('<td class="expense">').text(expense));
-                $('#messagesTable').prepend($(row));//.appendTo($('#messagesDiv'));
+               $('#messagesTable').prepend($(row));//.appendTo($('#messagesDiv'));
                   $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
                };
 
