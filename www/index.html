@@ -40,8 +40,9 @@
         <div class="container" style="padding-left:5px;">
         
           <a class="brand" href="#" id="project_name">  Shoubhik Bose  </a>
-          <a class="brand" href="#" style="font-size:80%">  About </a>
-          <a class="brand" href="#" style="font-size:80%">  Account </a>
+          
+          <a class="brand" href="#" style="font-size:80%">  Groups
+           </a>
 
           <!--
           <div class="nav-collapse collapse">
@@ -126,41 +127,24 @@
         <script type="text/javascript">
 
               var PROJECT_NAME="flat206";
+              var FIREBASE_NAME = "https://expenses.firebaseio.com/";
+              var myExpensesDataRef="";
               var isOnline = true;
 
-                 document.addEventListener("online", onOnline, false);
 
-                 
-                document.addEventListener("deviceready", onDeviceReady, false);
-                function onDeviceReady(){
-                        document.addEventListener("offline", onOffline, false);
+              /*
 
-                }
-                
+                  Phonegap specific initializations. Doesn't interfere with debugging in the browser
 
+              */
 
-                $(document).ready(function() {
-
-                      $("#project_name").html(PROJECT_NAME);
-                       $("form#submission_form").hide();
-                
-                });
-
-                function getDate()
-                {
-                        var today = new Date();
-                        var dd = today.getDate();
-                        var mm = today.getMonth()+1; //January is 0!
-
-                       var yyyy = today.getFullYear();
-                        if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = dd+'/'+mm+'/'+yyyy;
-
-                        return today;
-                }  
-
-
+              document.addEventListener("online", onOnline, false);                 
+              document.addEventListener("deviceready", onDeviceReady, false);              
+              function onDeviceReady(){
+                      document.addEventListener("offline", onOffline, false);
+              }
                 //  interact with firebase
-                function onOnline(){
+               function onOnline(){
                 //  alert("online :-) in handler");
                   isOnline = true;
 
@@ -172,7 +156,41 @@
                   isOnline=false;              
                 }
         
-                var myExpensesDataRef = new Firebase('https://expenses.firebaseio.com/'+PROJECT_NAME+'/expenses');
+                $(document).ready(function() {
+
+                      // dummy call, later to replaced by call initiated from user-action
+                      setGroupDetails("flat206");                     
+                       $("form#submission_form").hide();
+                
+                });
+
+              function setGroupDetails(project_name)
+              {
+                  PROJECT_NAME=project_name;
+                  myExpensesDataRef = new Firebase(FIREBASE_NAME+PROJECT_NAME+'/expenses');
+                  myExpensesDataRef.on('child_added', updateExhaustiveListOfExpenses);
+                  focus_on_section("div#exhaustiveExpensesDiv");
+                  $("#project_name").html(PROJECT_NAME);
+              }
+
+                // utility function to generate the current date in a nice format :)
+                function getDate()
+                {
+                        var today = new Date();
+                        var dd = today.getDate();
+                        var mm = today.getMonth()+1; //January is 0!
+
+                        var yyyy = today.getFullYear();
+                        if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = dd+'/'+mm+'/'+yyyy;
+
+                        return today;
+                }  
+
+
+               /*
+                      This function makes only 1 DIV visible. 
+                      Everything else is hidden to the user.
+               */
 
               function focus_on_section(section_div){
 
@@ -181,6 +199,12 @@
                    $(section_div).show();
 
               }
+
+              /*
+                     This event is triggered when the user submits
+                     an expense info.
+
+              */
 
               $('#buttonSend').click(function () {
           
@@ -216,11 +240,37 @@
                  
               });
 
+              /*  
+                  This event is triggered when the user taps on the                       
+                  "add expense" button.
+
+                  -The form shows up
+                  -The "add expense" button is consequently hidden.
+
+              */
+
               $('#buttonShowForm').click(function(){
 
                   $("form#submission_form").show();
                   $('#buttonShowForm').hide();
 
+
+              });
+
+
+               $("#userSearchButton").click(function(){
+
+                   var search_key = $("#searchUserInput").val();
+                    generateUserSpecificInfoTable(search_key);
+
+              });
+
+              $("table#messagesTable").delegate("tr","click", function(event){
+                  var name = $(this).attr("name");
+                  $("#searchUserInput").val($(this).attr("name"));
+                 // $("#userDataButton").click();
+
+                 generateUserSpecificInfoTable(name);
 
               });
 
@@ -250,33 +300,18 @@
                   focus_on_section("div#userSpecificExpensesDiv");
 
               }
-              $("#userSearchButton").click(function(){
-
-                   var search_key = $("#searchUserInput").val();
-                    generateUserSpecificInfoTable(search_key);
-
-              });
-
-              $("table#messagesTable").delegate("tr","click", function(event){
-                  var name = $(this).attr("name");
-                  $("#searchUserInput").val($(this).attr("name"));
-                 // $("#userDataButton").click();
-
-                 generateUserSpecificInfoTable(name);
-
-              });
+             
 
 
             // Need not worry about this as event handler wont be triggered anyway in offline mode.
 
-             myExpensesDataRef.on('child_added', function(snapshot) {
-             //     navigator.notification.beep(2);
+            function updateExhaustiveListOfExpenses(snapshot){
                   var message = snapshot.val();
                   displayChatMessage(message.name, message.expense, message.date_of_shopping, message.commodity);
 
                  
                  // alert(message.commodity);
-                   var expense_data = parseInt(message.expense);
+                  var expense_data = parseInt(message.expense);
                   var current_sum = parseInt($("text#total_expenditure").html());
 
                   // calculating new sum
@@ -287,8 +322,8 @@
 
                   $("text#total_expenditure").html(current_sum);
 
-                  //alert(message.name+","+ message.expense+","+ message.date_of_shopping);
-              });
+            }
+            
               function displayChatMessage(name, expense, date_of_shopping,commodity) {
                var  row= $('<tr>');
                $(row).attr("name",name).attr("expense",expense).attr("date_of_shopping",date_of_shopping).attr("commodity",commodity).attr("class","all_expense_data");
